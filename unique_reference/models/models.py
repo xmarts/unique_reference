@@ -5,7 +5,8 @@ from odoo import models, fields, api
 
 class ResPartner(models.Model):
 	_inherit = 'res.partner'
-	ref = fields.Char(string='Referencia interna', readonly=True)
+	ref = fields.Char(string='Referencia interna')
+
 	@api.model
 	def create(self, vals):
 		cr = self.env.cr
@@ -15,12 +16,19 @@ class ResPartner(models.Model):
 		maxc=5000
 		maxp=0
 		for t in tabla:
-			if int(t[0])>5000:
-				if int(t[0])>maxc:
-					maxc=int(t[0])
-			if int(t[0])<5000:
-				if int(t[0])>maxp:
-					maxp=int(t[0])
+			try:
+				if int(t[0])>5000:
+					if int(t[0])>maxc:
+						maxc=int(t[0])
+			except ValueError:
+				print("")
+			try:
+				if int(t[0])<5000:
+					if int(t[0])>maxp:
+						maxp=int(t[0])
+			except ValueError:
+				print("")
+
 
 		if vals.get('supplier') == False:
 			vals['ref'] = maxp+1

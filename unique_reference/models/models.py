@@ -31,10 +31,10 @@ class ResPartner(models.Model):
 
 
 		if vals.get('supplier') == False:
-			vals['ref'] = maxp+1
+			vals['ref'] = maxc+1
 			
 		else:
-			vals['ref'] = maxc+1
+			vals['ref'] = maxp+1
 
 		return super(ResPartner, self).create(vals)
 

@@ -1,60 +1,16 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="unique_reference.list">
-      <field name="name">unique_reference list</field>
-      <field name="model">unique_reference.unique_reference</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
+    <record model='ir.ui.view' id="xmarts_ref">
+        <field name="name">xmarts_ref</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='ref']" position="attributes"> 
+            <attribute name="readonly">True 
+             </attribute> 
+            </xpath> 
+        </field>
     </record>
-    -->
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="unique_reference.action_window">
-      <field name="name">unique_reference window</field>
-      <field name="res_model">unique_reference.unique_reference</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-    -->
-
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="unique_reference.action_server">
-      <field name="name">unique_reference server</field>
-      <field name="model_id" ref="model_unique_reference_unique_reference"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
-
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="unique_reference" id="unique_reference.menu_root"/>
-    -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="unique_reference.menu_1" parent="unique_reference.menu_root"/>
-    <menuitem name="Menu 2" id="unique_reference.menu_2" parent="unique_reference.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="unique_reference.menu_1_list" parent="unique_reference.menu_1"
-              action="unique_reference.action_window"/>
-    <menuitem name="Server to list" id="unique_reference" parent="unique_reference.menu_2"
-              action="unique_reference.action_server"/>
-    -->
   </data>
 </odoo>

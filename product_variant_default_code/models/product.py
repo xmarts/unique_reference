@@ -63,6 +63,15 @@ def get_rendered_default_code(product, mask):
 def render_default_code(product, mask):
     product.default_code = get_rendered_default_code(product, mask)
 
+class ProductTemplate_default_code(models.Model):
+    _inherit = 'product.template'
+
+    _sql_constraints = [(
+        'default_code_unique',
+        'unique(default_code)',
+        'La Referencia interna ya existe favor de modificarla'
+        )]
+
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -71,6 +80,12 @@ class ProductTemplate(models.Model):
         string='Reference Prefix', oldname='prefix_code',
         help='Add prefix to product variant reference (default code)',
     )
+    _sql_constraints = [(
+        'prefix_code_unique',
+        'unique(code_prefix)',
+        'El Prefijo de referencia ya existe favor de modificarlo'
+        )]
+   
     reference_mask = fields.Char(
         string='Variant reference mask', copy=False,
         help='Reference mask for building internal references of a '
@@ -106,7 +121,7 @@ class ProductTemplate(models.Model):
         ].sudo().get_param('default_reference_separator')
         for line in self.attribute_line_ids:
             attribute_names.append(u"[{}]".format(line.attribute_id.name))
-        default_mask = ((self.code_prefix or '') +
+        default_mask = ((self.code_prefix or '') +('-')+
                         default_reference_separator.join(attribute_names))
         return default_mask
 
@@ -223,5 +238,5 @@ class ProductAttributeValue(models.Model):
                 lambda x: x.product_tmpl_id.reference_mask and not
                 x.manual_code
                 ).mapped('product_tmpl_id.product_variant_ids'):
-            render_default_code(product, product.reference_mask)
+            render_default_code(product,product.reference_mask)
         return result
